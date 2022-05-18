@@ -27,9 +27,6 @@ public class Team {
     @Column(nullable = false, name = "commission")
     private Integer commission;
 
-    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.DETACH,
-            CascadeType.MERGE})
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Player> players = new HashSet<>();
 }

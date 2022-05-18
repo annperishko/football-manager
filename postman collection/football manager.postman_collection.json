@@ -9,7 +9,7 @@
 			"name": "not valid requests examples",
 			"item": [
 				{
-					"name": "player with missed name",
+					"name": "create player with missed name",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -37,7 +37,7 @@
 					"response": []
 				},
 				{
-					"name": "team with commission more then max allowed",
+					"name": "create team with commission more then max allowed",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -65,7 +65,7 @@
 					"response": []
 				},
 				{
-					"name": "player with not existing team",
+					"name": "create player with not existing team",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -93,7 +93,7 @@
 					"response": []
 				},
 				{
-					"name": "player by id who doesn`t exist",
+					"name": "get player by id who doesn`t exist",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -113,7 +113,7 @@
 					"response": []
 				},
 				{
-					"name": "not existing team",
+					"name": "delete not existing team",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -169,11 +169,32 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "transfer player to not existing team",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/player/1/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"player",
+								"1",
+								"9"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "player by id",
+			"name": "get player by id",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -193,7 +214,7 @@
 			"response": []
 		},
 		{
-			"name": "team by id",
+			"name": "get team by id",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -213,7 +234,7 @@
 			"response": []
 		},
 		{
-			"name": "new player",
+			"name": "create new player",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -241,7 +262,7 @@
 			"response": []
 		},
 		{
-			"name": "player",
+			"name": "delete player",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -270,7 +291,7 @@
 			"response": []
 		},
 		{
-			"name": "new team",
+			"name": "create new team",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -298,7 +319,7 @@
 			"response": []
 		},
 		{
-			"name": "team",
+			"name": "delete team",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -327,7 +348,7 @@
 			"response": []
 		},
 		{
-			"name": "all players ordered by team and name",
+			"name": "get all players ordered by team and name",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -340,6 +361,25 @@
 					"port": "8080",
 					"path": [
 						"player"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all teams ordered by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/team",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"team"
 					]
 				}
 			},
@@ -367,32 +407,13 @@
 			"response": []
 		},
 		{
-			"name": "all teams ordered by name",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/team",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"team"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "update team",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"teamName\": \"Veres\",\r\n    \"account\": 1778945.3,\r\n    \"commission\": 1\r\n}",
+					"raw": "{\r\n    \"teamName\": \"Veres new\",\r\n    \"account\": 2000000,\r\n    \"commission\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -421,7 +442,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Stepan Bandera new\",\r\n    \"age\": 30,\r\n    \"experience\": 50.0\r\n}",
+					"raw": "{\r\n    \"name\": \"Stepan Bandera new\",\r\n    \"age\": 30,\r\n    \"experience\": 50.0,\r\n    \"teamName\": \"Veres\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
