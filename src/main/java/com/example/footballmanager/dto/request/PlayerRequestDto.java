@@ -2,17 +2,17 @@ package com.example.footballmanager.dto.request;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class PlayerRequestDto {
-    @NotBlank(message = "team name can`t be empty")
+    @NotBlank(message = "player name can`t be empty")
     private String name;
-    @NotBlank(message = "age can`t be empty")
+    @NotNull(message = "age can`t be null")
     private Integer age;
-    @NotBlank(message = "experience can`t be empty")
+    @NotNull(message = "experience can`t be null")
     private Double experience;
-
+    @NotBlank(message = "team name can`t be empty")
     private String teamName;
 }
