@@ -6,6 +6,7 @@ import com.example.footballmanager.entities.Team;
 import com.example.footballmanager.exceptions.RecordNotFoundException;
 import com.example.footballmanager.mapping.TeamMapping;
 import com.example.footballmanager.repositories.TeamRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,19 +15,22 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class TeamService {
     private final TeamRepo teamRepo;
     private final TeamMapping teamMapping;
 
     private static final String ERR_MSG = "Team not found";
 
-    public TeamService(TeamRepo teamRepo, TeamMapping teamMapping) {
-        this.teamRepo = teamRepo;
-        this.teamMapping = teamMapping;
-    }
-
     public TeamResponseDto getTeamInfo(Integer teamId) {
         return teamMapping.mapToTeamResponseDto(findById(teamId));
+    }
+
+    public List<TeamResponseDto> findAllTeams() {
+        List<Team> teams = teamRepo.findAllTeams();
+        return teams.stream()
+                .map(teamMapping::mapToTeamResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -74,10 +78,5 @@ public class TeamService {
                 .orElseThrow(() -> new RecordNotFoundException(ERR_MSG));
     }
 
-    public List<TeamResponseDto> findAllTeams() {
-        List<Team> teams = teamRepo.findAllTeams();
-        return teams.stream()
-                .map(teamMapping::mapToTeamResponseDto)
-                .collect(Collectors.toList());
-    }
+
 }

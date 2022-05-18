@@ -1,6 +1,9 @@
 package com.example.footballmanager.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -19,7 +22,7 @@ public class Player {
     private String name;
     @Column(nullable = false, name = "age")
     private Integer age;
-    @Column(nullable = false,name = "experience")
+    @Column(nullable = false, name = "experience")
     private Double experience;
 
     @ManyToOne

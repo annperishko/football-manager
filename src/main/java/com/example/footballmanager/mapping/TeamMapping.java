@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class TeamMapping {
 
-    public TeamResponseDto mapToTeamResponseDto(Team team){
+    public TeamResponseDto mapToTeamResponseDto(Team team) {
         TeamResponseDto dto = new TeamResponseDto();
         dto.setId(team.getId());
         dto.setAccount(team.getAccount());

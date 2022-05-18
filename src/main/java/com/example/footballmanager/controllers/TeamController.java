@@ -3,6 +3,7 @@ package com.example.footballmanager.controllers;
 import com.example.footballmanager.dto.request.TeamRequestDto;
 import com.example.footballmanager.dto.response.TeamResponseDto;
 import com.example.footballmanager.services.TeamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +12,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/team")
 public class TeamController {
     private final TeamService teamService;
-
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
-    }
 
     @GetMapping("/{teamId}")
     public ResponseEntity<TeamResponseDto> getTeamById(@PathVariable int teamId){
@@ -42,7 +40,7 @@ public class TeamController {
 
     @PutMapping("/{teamId}")
     public ResponseEntity<TeamResponseDto> updateTeamInfo(@PathVariable int teamId,
-                                                          @RequestBody TeamRequestDto teamRequestDto){
+                                                          @Valid @RequestBody TeamRequestDto teamRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(teamService.updateTeamInfo(teamId, teamRequestDto));
     }
 }

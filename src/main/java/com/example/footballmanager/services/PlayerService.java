@@ -8,6 +8,7 @@ import com.example.footballmanager.exceptions.ForbiddenModificationException;
 import com.example.footballmanager.exceptions.RecordNotFoundException;
 import com.example.footballmanager.mapping.PlayerMapping;
 import com.example.footballmanager.repositories.PlayerRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class PlayerService {
     private final PlayerRepo playerRepo;
     private final TeamService teamService;
@@ -25,18 +27,19 @@ public class PlayerService {
     private static final String ERR_MSG = "Player not found";
     private static final String ERR_MSG_FORBIDDEN = "Team can`t be changed";
 
-    public PlayerService(PlayerRepo playerRepo, TeamService teamService, PlayerMapping playerMapping) {
-        this.playerRepo = playerRepo;
-        this.teamService = teamService;
-        this.playerMapping = playerMapping;
-    }
-
-    public PlayerResponseDto getPlayerInfo(Integer playerId){
+    public PlayerResponseDto getPlayerInfo(Integer playerId) {
         return playerMapping.mapToPlayerResponseDto(findById(playerId));
     }
 
+    public List<PlayerResponseDto> findAll() {
+        List<Player> allPlayers = playerRepo.findAllSortedByTeam();
+        return allPlayers.stream()
+                .map(playerMapping::mapToPlayerResponseDto)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
-    public PlayerResponseDto createNewPlayer(PlayerRequestDto playerRequestDto){
+    public PlayerResponseDto createNewPlayer(PlayerRequestDto playerRequestDto) {
         Player player = new Player();
         player.setName(playerRequestDto.getName());
         player.setAge(playerRequestDto.getAge());
@@ -49,12 +52,12 @@ public class PlayerService {
     }
 
     @Transactional
-    public void removePlayerById(Integer playerId){
+    public void deletePlayerById(Integer playerId) {
         playerRepo.deleteById(playerId);
     }
 
     @Transactional
-    public PlayerResponseDto transferPlayerToAnotherTeam(Integer playerId, Integer teamPurchaserId){
+    public PlayerResponseDto transferPlayerToAnotherTeam(Integer playerId, Integer teamPurchaserId) {
         Player player = findById(playerId);
         Team purchaser = teamService.findById(teamPurchaserId);
 
@@ -72,7 +75,7 @@ public class PlayerService {
     @Transactional
     public PlayerResponseDto updatePlayerInfo(Integer playerId, PlayerRequestDto playerRequestDto) {
         Player player = findById(playerId);
-        if(!playerRequestDto.getTeamName().equals(teamService.findNameOfTeam(player.getTeam()))){
+        if (!playerRequestDto.getTeamName().equals(teamService.findNameOfTeam(player.getTeam()))) {
             throw new ForbiddenModificationException(ERR_MSG_FORBIDDEN);
         }
         player.setName(playerRequestDto.getName());
@@ -83,21 +86,15 @@ public class PlayerService {
 
     }
 
-    public Player findById(Integer playerId){
+    public Player findById(Integer playerId) {
         return playerRepo.findById(playerId)
                 .orElseThrow(() -> new RecordNotFoundException(ERR_MSG));
     }
 
-    private Double countFullPrice(Player player, Team teamSeller){
+    private Double countFullPrice(Player player, Team teamSeller) {
         Double transferPrice = (player.getExperience() * 100000) / player.getAge();
         Double commissionPrice = (transferPrice / 100) * teamSeller.getCommission();
         return transferPrice + commissionPrice;
     }
 
-    public List<PlayerResponseDto> findAll(){
-        List<Player> allPlayers = playerRepo.findAllSortedByTeam();
-        return allPlayers.stream()
-                .map(playerMapping::mapToPlayerResponseDto)
-                .collect(Collectors.toList());
-    }
 }
