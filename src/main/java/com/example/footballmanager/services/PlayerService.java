@@ -75,7 +75,7 @@ public class PlayerService {
     @Transactional
     public PlayerResponseDto updatePlayerInfo(Integer playerId, PlayerRequestDto playerRequestDto) {
         Player player = findById(playerId);
-        if (!playerRequestDto.getTeamName().equals(teamService.findNameOfTeam(player.getTeam()))) {
+        if (!playerRequestDto.getTeamName().equals(player.getTeam().getTeamName())) {
             throw new ForbiddenModificationException(ERR_MSG_FORBIDDEN);
         }
         player.setName(playerRequestDto.getName());

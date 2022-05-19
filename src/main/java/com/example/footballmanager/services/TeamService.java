@@ -68,11 +68,6 @@ public class TeamService {
                 .orElseThrow(() -> new RecordNotFoundException(ERR_MSG));
     }
 
-    public String findNameOfTeam(Team team) {
-        return teamRepo.findTeamName(team)
-                .orElseThrow(() -> new RecordNotFoundException(ERR_MSG));
-    }
-
     public Team findById(Integer teamId) {
         return teamRepo.findById(teamId)
                 .orElseThrow(() -> new RecordNotFoundException(ERR_MSG));

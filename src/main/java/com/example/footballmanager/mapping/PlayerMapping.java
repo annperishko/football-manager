@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class PlayerMapping {
-    private final TeamService teamService;
 
     public PlayerResponseDto mapToPlayerResponseDto(Player player) {
         PlayerResponseDto dto = new PlayerResponseDto();
@@ -17,7 +15,7 @@ public class PlayerMapping {
         dto.setAge(player.getAge());
         dto.setExperience(player.getExperience());
         dto.setName(player.getName());
-        dto.setTeamName(teamService.findNameOfTeam(player.getTeam()));
+        dto.setTeamName(player.getTeam().getTeamName());
         return dto;
     }
 }
